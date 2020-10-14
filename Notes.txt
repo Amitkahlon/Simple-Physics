@@ -1,0 +1,19 @@
+Todos
+
+-fix on x axis valocity get reduced.
+-fix not deleting history after stop draging a shape
+-fix objects never reach 0 velocity
+
+
+
+arcitact
+-follow the logic, draw method. (ui should use a draw method that have callback.)
+
+while (user does not exit)
+    check for user input
+    run AI
+    move enemies
+    resolve collisions
+    draw graphics
+    play sounds
+end while

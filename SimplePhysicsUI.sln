@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30406.217
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplePhysicsUI", "SimplePhysicsUI\SimplePhysicsUI.csproj", "{9F679455-F70E-48F3-BBDB-D815E0DCFCED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimplePhysics", "SimplePhysics\SimplePhysics.csproj", "{708A4DF8-B74D-48ED-97A0-BC06E92C8226}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EA7999E1-1003-486F-80DE-DC9B7399F9A8}"
+	ProjectSection(SolutionItems) = preProject
+		Notes.txt = Notes.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F679455-F70E-48F3-BBDB-D815E0DCFCED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F679455-F70E-48F3-BBDB-D815E0DCFCED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F679455-F70E-48F3-BBDB-D815E0DCFCED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F679455-F70E-48F3-BBDB-D815E0DCFCED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{708A4DF8-B74D-48ED-97A0-BC06E92C8226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{708A4DF8-B74D-48ED-97A0-BC06E92C8226}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{708A4DF8-B74D-48ED-97A0-BC06E92C8226}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{708A4DF8-B74D-48ED-97A0-BC06E92C8226}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED93A5F1-F0F0-45F6-B2A9-28894C11FDE0}
+	EndGlobalSection
+EndGlobal
