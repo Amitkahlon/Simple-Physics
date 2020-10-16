@@ -132,6 +132,7 @@ namespace SimplePhysics
                     Collision.CollisionEffect(shape);
                 }
             }
+            Debug.WriteLine($"{Debugger.IsAttached}");
         }
 
         /// <summary>
@@ -144,8 +145,6 @@ namespace SimplePhysics
             point.Y += shape.Velocity.YVelocity;
             point.X += shape.Velocity.XVelocity;
             shape.SetCenterPoint(point);
-
-            Debug.WriteLine($"{shape.Velocity.XVelocity}, {shape.Velocity.YVelocity}");
         }
         /// <summary>
         /// Calc the gravity on an object.
