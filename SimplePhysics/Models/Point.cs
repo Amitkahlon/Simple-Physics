@@ -15,9 +15,7 @@ namespace SimplePhysics.Models
 
         public double GetDistance(Point other)
         {
-            double dis = ((X - other.X) * (X - other.X) + (Y - other.Y) * (Y - other.Y));
-            dis = Math.Sqrt(dis);
-            return dis;
+            return GetDistance(this, other);
         }
 
         public static double GetDistance(Point p1, Point p2)

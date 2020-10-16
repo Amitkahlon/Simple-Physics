@@ -2,11 +2,13 @@
 using SimplePhysics.Shapes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -23,50 +25,74 @@ namespace SimplePhysicsUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public DispatcherTimer FollowMouseTimer { get; set; }
+        private DispatcherTimer FollowMouseTimer;
+        private DispatcherTimer RenderUiTimer;
         private PhysicsLogic Logic;
         private List<WpfCircle> entities;
-        private bool IsMouseHold;
+        private WpfCircle selectedShape;
+        private bool IsHoldingMouse;
+
 
         public MainWindow()
         {
             InitializeComponent();
 
-            //PreviewMouseLeftButtonDown += MouseHold;
-
-            PreviewMouseDown += HoldMouseEventHandler;
-            PreviewMouseUp += ReleaseMouseEventHandler;
-
-            var c = new WpfCircle(100, InvokeDispatcher, GetDoubleFromUI);
-            //var c1 = new WpfCircle(100, InvokeDispatcher, GetDoubleFromUI);
-
-            Logic = new PhysicsLogic(GetScreenWidth, GetScreenHeight, c);
-            Cnvs.Children.Add(c.ellipse);
-
-            entities = new List<WpfCircle>()
-            {
-                c
-            };
-
-            FollowMouseTimer = new DispatcherTimer(DispatcherPriority.Send);
-            FollowMouseTimer.Tick += Timer_Tick;
-            FollowMouseTimer.Interval = TimeSpan.FromMilliseconds(16);
+            SetMouseEvents();
+            SetUiElements();
+            CreateLogic();
+            SetRenderTimer(300);
+            SetFollowMouseTimer();
 
             Logic.TimerSwitch = true;
-            //Logic.LoadSpaceSettings();
 
-            Logic.Draw += Draw;
+
+            void SetMouseEvents()
+            {
+                PreviewMouseDown += HoldMouseEventHandler;
+                PreviewMouseUp += ReleaseMouseEventHandler;
+            }
+            void SetUiElements()
+            {
+                var c = new WpfCircle(50);
+                Cnvs.Children.Add(c.Ellipse);
+                entities = new List<WpfCircle>() { c };
+            }
+            void CreateLogic()
+            {
+                Logic = new PhysicsLogic(GetScreenWidth, GetScreenHeight, entities.ToArray());
+            }
+            void SetFollowMouseTimer()
+            {
+                FollowMouseTimer = new DispatcherTimer(DispatcherPriority.Send);
+                FollowMouseTimer.Tick += FollowMouseTick;
+                FollowMouseTimer.Interval = TimeSpan.FromMilliseconds(16);
+            }
+            void SetRenderTimer(int ticksPerSecond)
+            {
+                RenderUiTimer = new DispatcherTimer(DispatcherPriority.Send);
+                RenderUiTimer.Tick += Draw;
+                RenderUiTimer.Interval = TimeSpan.FromMilliseconds(1000 / ticksPerSecond);
+                RenderUiTimer.Start();
+            }
         }
 
-        private WpfCircle selectedShape;
+        private void Draw(object sender, EventArgs e)
+        {
+            foreach (var entitiy in entities)
+            {
+                UIElement uiElement = entitiy.Ellipse;
+                Canvas.SetLeft(uiElement, entitiy.XLoc);
+                Canvas.SetTop(uiElement, entitiy.YLoc);
+            }
+        }
         private void ReleaseMouseEventHandler(object sender, MouseButtonEventArgs e)
         {
-            if (IsMouseHold)
+            if (IsHoldingMouse)
             {
                 Logic.TimerSwitch = true;
                 Logic.StopDrag(selectedShape);
                 FollowMouseTimer.Stop();
-                IsMouseHold = false;
+                IsHoldingMouse = false;
                 selectedShape = null;
             }
         }
@@ -74,9 +100,9 @@ namespace SimplePhysicsUI
         {
             foreach (var s in entities)
             {
-                if (s.ellipse.IsMouseOver)
+                if (s.Ellipse.IsMouseOver)
                 {
-                    IsMouseHold = true;
+                    IsHoldingMouse = true;
                     Logic.TimerSwitch = false;
                     FollowMouseTimer.Start();
                     selectedShape = s;
@@ -84,39 +110,12 @@ namespace SimplePhysicsUI
                 }
             }
 
-            
+
         }
-        private void Timer_Tick(object sender, EventArgs e)
+        private void FollowMouseTick(object sender, EventArgs e)
         {
             Point p = Mouse.GetPosition(Cnvs);
-            double x, y;
-            x = p.X;
-            y = p.Y;
-            Logic.FollowMouse(x, y, selectedShape);
-        }
-        public void InvokeDispatcher(Action a)
-        {
-            try
-            {
-                Dispatcher.Invoke(() => a.Invoke());
-            }
-            catch (Exception)
-            {
-
-            }
-        }
-        public double GetDoubleFromUI(Func<double> a)
-        {
-            try
-            {
-                double res = Dispatcher.Invoke(a);
-                return res;
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-
+            Logic.FollowMouse(p.X, p.Y, selectedShape);
         }
         private double GetScreenWidth()
         {
@@ -125,13 +124,6 @@ namespace SimplePhysicsUI
         private double GetScreenHeight()
         {
             return Cnvs.ActualHeight;
-        }
-        public void Draw()
-        {
-            foreach (var item in entities)
-            {
-                
-            }
         }
     }
 

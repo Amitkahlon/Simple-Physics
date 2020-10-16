@@ -11,8 +11,10 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("SimplePhysics")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Amit Kahlon")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyCopyrightAttribute("Anyone can use.")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("A simple libay for implementing physics on 2d shapes.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("SimplePhysics")]

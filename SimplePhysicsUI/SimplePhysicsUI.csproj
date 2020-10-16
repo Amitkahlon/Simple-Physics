@@ -70,7 +70,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WpfCircle.cs" />
+    <Compile Include="WpfShapes\WpfCircle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

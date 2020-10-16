@@ -27,9 +27,9 @@ namespace SimplePhysics.Shapes
         public PhysicsShape()
         {
             Velocity = new Velocity();
-            HistoryPosition = new HistoryPosition();
+            HistoryPosition = new PreviousPosition();
         }
-        public HistoryPosition HistoryPosition { get; private set; }
+        public PreviousPosition HistoryPosition { get; private set; }
 
         public delegate void ShapeMove(object sender, ShapeMoveEventArgs e);
         public event ShapeMove CircleMoveEvent;

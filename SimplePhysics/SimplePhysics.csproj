@@ -1,7 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Amit Kahlon</Authors>
+    <Description>A simple libay for implementing physics on 2d shapes.</Description>
+    <Copyright>Anyone can use.</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

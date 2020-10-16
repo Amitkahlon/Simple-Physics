@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SimplePhysics.Models
+﻿namespace SimplePhysics.Models
 {
     public class Velocity
     {
@@ -14,5 +10,16 @@ namespace SimplePhysics.Models
         //Represent The Velocity In the Y axis
         //+Velocity: down, -Velocity: up
         public double YVelocity { get; set; }
+
+        public Velocity()
+        {
+
+        }
+
+        public Velocity(double x, double y)
+        {
+            this.XVelocity = x;
+            this.YVelocity = y;
+        }
     }
 }

@@ -1,40 +1,38 @@
 ﻿using SimplePhysics.Models;
 using SimplePhysics.Shapes;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SimplePhysics.Logic
 {
-    public class HistoryPosition
+    public class PreviousPosition
     {
         private const int Capacity = 5;
         public PhysicsShape Shape { get; set; }
-        public List<Point> HistoryOfLoc { get; private set; }
+        public List<Point> History { get; private set; }
 
-        public HistoryPosition()
+        public PreviousPosition()
         {
-            HistoryOfLoc = new List<Point>(Capacity);
+            History = new List<Point>(Capacity);
         }
 
         public void AddHistory(Point p)
         {
-            if (HistoryOfLoc.Count < Capacity)
+            if (History.Count < Capacity)
             {
-                HistoryOfLoc.Add(p);
+                History.Add(p);
             }
             else
             {
-                HistoryOfLoc.RemoveAt(0);
-                HistoryOfLoc.Add(p);
+                History.RemoveAt(0);
+                History.Add(p);
             }
         }
 
         public double GetDistanceTravel()
         {
-            var a = HistoryOfLoc[0];
-            var b = HistoryOfLoc.Last();
+            var a = History[0];
+            var b = History.Last();
 
             double dis = Point.GetDistance(a, b);
 
@@ -44,8 +42,8 @@ namespace SimplePhysics.Logic
         public Velocity GetVelocityGained()
         {
             Point a, b;
-            a = HistoryOfLoc[0];
-            b = HistoryOfLoc.Last();
+            a = History[0];
+            b = History.Last();
 
             double xDis = b.X - a.X;
             double yDis = b.Y - a.Y;
@@ -59,7 +57,7 @@ namespace SimplePhysics.Logic
 
         internal void Clear()
         {
-            HistoryOfLoc.Clear();
+            History.Clear();
         }
     }
 
