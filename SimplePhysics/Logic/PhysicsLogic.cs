@@ -1,4 +1,5 @@
-﻿using SimplePhysics.Logic;
+﻿using SimplePhysics.Interfaces;
+using SimplePhysics.Logic;
 using SimplePhysics.Models;
 using SimplePhysics.Shapes;
 using System;
@@ -58,6 +59,8 @@ namespace SimplePhysics
         public List<PhysicsShape> Shapes { get; set; }
         private Collision Collision;
 
+        public List<PhysicsShape> UneffectedShapes { get; set; }
+
         /// <summary>
         /// Creates a new instance of PhysicsLogic with absolute values.
         /// </summary>
@@ -93,6 +96,7 @@ namespace SimplePhysics
             Collision = new Collision();
             Timer = CreateTimer();
             Shapes = new List<PhysicsShape>(shapes);
+            UneffectedShapes = new List<PhysicsShape>();
             LoadDefualtSettings();
         }
         public void LoadDefualtSettings()
@@ -123,16 +127,17 @@ namespace SimplePhysics
         /// <param name="e"></param>
         private void MainTick(object sender, ElapsedEventArgs e)
         {
-            if (!Debugger.IsAttached)
+            foreach (var shape in Shapes)
             {
-                foreach (var shape in Shapes)
+                if (!UneffectedShapes.Contains(shape))
                 {
                     CalcGravityEffect(shape);
                     CalcVelocity(shape);
                     Collision.CollisionEffect(shape);
+                    Collision.EntitiyCollision(Shapes, shape);
+                    Debug.WriteLine($"{shape.Velocity}");
                 }
             }
-            Debug.WriteLine($"{Debugger.IsAttached}");
         }
 
         /// <summary>
@@ -142,8 +147,8 @@ namespace SimplePhysics
         private void CalcVelocity(PhysicsShape shape)
         {
             var point = shape.CenterPoint;
-            point.Y += shape.Velocity.YVelocity;
-            point.X += shape.Velocity.XVelocity;
+            point.Y += shape.Velocity.y;
+            point.X += shape.Velocity.X;
             shape.SetCenterPoint(point);
         }
         /// <summary>
@@ -152,10 +157,7 @@ namespace SimplePhysics
         /// <param name="shape"></param>
         private void CalcGravityEffect(PhysicsShape shape)
         {
-            if(!Collision.IsCollideWithBottomBorder(shape, Collision.ScreenHeight))
-            {
-                shape.Velocity.YVelocity += Gravity;
-            }
+            shape.Velocity.y += Gravity;
         }
 
         public void FollowMouse(double x, double y, PhysicsShape shape)
@@ -169,8 +171,8 @@ namespace SimplePhysics
         {
             //todo: maybe get better logic.
             Velocity velocity = shape.HistoryPosition.GetVelocityGained();
-            velocity.XVelocity *= Power;
-            velocity.YVelocity *= Power;
+            velocity.X *= Power;
+            velocity.y *= Power;
             shape.Velocity = velocity;
         }
         public void StopDrag(PhysicsShape shape)

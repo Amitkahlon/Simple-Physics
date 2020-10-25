@@ -1,4 +1,5 @@
-﻿using SimplePhysics.Logic;
+﻿using SimplePhysics.Interfaces;
+using SimplePhysics.Logic;
 using SimplePhysics.Models;
 using System;
 using System.Diagnostics;

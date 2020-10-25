@@ -1,7 +1,9 @@
-﻿using SimplePhysics.Models;
+﻿using SimplePhysics.Interfaces;
+using SimplePhysics.Models;
 using SimplePhysics.Shapes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace SimplePhysics.Logic
@@ -101,18 +103,19 @@ namespace SimplePhysics.Logic
                 shape.RightVertex = point;
                 SetVelocityBorderHit(shape, true);
             }
+
         }
         private void SetVelocityBorderHit(PhysicsShape shape, bool isCollideWithX)
         {
             if (isCollideWithX)
             {
-                shape.Velocity.XVelocity *= (float)1 - Friction;
-                shape.Velocity.XVelocity *= -1;
+                shape.Velocity.X *= (float)1 - Friction;
+                shape.Velocity.X *= -1;
             }
             else 
             {
-                shape.Velocity.YVelocity *= (float)1 - Friction;
-                shape.Velocity.YVelocity *= -1;
+                shape.Velocity.y *= (float)1 - Friction;
+                shape.Velocity.y *= -1;
             }
         }
         internal bool IsCollideWithBottomBorder(PhysicsShape shape, double screenHeight)
@@ -129,15 +132,78 @@ namespace SimplePhysics.Logic
         }
         
         
-        public void EntitiyCollision(PhysicsShape shape1, PhysicsShape shape2)
+        public void CircleCollision(PhysicsCircle circle1, PhysicsCircle circle2)
         {
             //todo: implement entitiyCollision
-            throw new NotImplementedException();
-            //work in progress
-            var v1 = shape1.Velocity;
-            var v2 = shape2.Velocity;
+            double xDistance = circle1.CenterPoint.X - circle2.CenterPoint.X;
+            double yDistance = circle1.CenterPoint.Y - circle2.CenterPoint.Y;
+            double radiusSum = circle1.Radius + circle2.Radius;
 
-            shape1.Velocity.XVelocity = v2.XVelocity;
+            if (xDistance * xDistance + yDistance * yDistance <= radiusSum * radiusSum)
+            {
+                FixOverlap(circle1, circle2);
+                CalcHitVelocity(circle1, circle2);
+            }
+        }
+
+        private void CalcHitVelocity(PhysicsCircle circle1, PhysicsCircle circle2)
+        {
+            double distance = circle1.CenterPoint.GetDistance(circle2.CenterPoint);
+
+            // mormal
+            double nx = (circle2.CenterPoint.X - circle1.CenterPoint.X) / distance;
+            double ny = (circle2.CenterPoint.Y - circle1.CenterPoint.Y) / distance;
+
+            // tangent
+            double tx = -ny;
+            double ty = nx;
+
+            //dot product tangent
+            double dpTan1 = circle1.Velocity.X * tx + circle1.Velocity.y * ty;
+            double dpTan2 = circle2.Velocity.X * tx + circle2.Velocity.y * ty;
+
+            dpTan1 *= 1.3;
+            dpTan2 *= 1.3;
+
+
+            circle1.Velocity.X = tx * dpTan1;
+            circle1.Velocity.y = ty * dpTan1;
+            circle2.Velocity.X = tx * dpTan2;
+            circle2.Velocity.y = tx * dpTan2;
+
+
+        }
+
+        private void FixOverlap(PhysicsCircle circle1, PhysicsCircle circle2)
+        {
+            double xDistance = circle1.CenterPoint.X - circle2.CenterPoint.X;
+            double yDistance = circle1.CenterPoint.Y - circle2.CenterPoint.Y;
+            double cDistance = Math.Sqrt(xDistance * xDistance + yDistance * yDistance);
+            double Overlap = 0.5f * (cDistance - circle1.Radius - circle2.Radius);
+
+            //fix pos of first circle
+            double newX = circle1.CenterPoint.X - Overlap * (circle1.CenterPoint.X - circle2.CenterPoint.X) / cDistance;
+            double newY = circle1.CenterPoint.Y - Overlap * (circle1.CenterPoint.Y - circle2.CenterPoint.Y) / cDistance;
+            circle1.SetCenterPoint(newX, newY);
+
+            //fix pos of second circle
+            newX = circle2.CenterPoint.X + Overlap * (circle1.CenterPoint.X - circle2.CenterPoint.X) / cDistance;
+            newY = circle2.CenterPoint.Y + Overlap * (circle1.CenterPoint.Y - circle2.CenterPoint.Y) / cDistance;
+            circle2.SetCenterPoint(newX, newY);
+        }
+
+        internal void EntitiyCollision(List<PhysicsShape> entities, PhysicsShape checkedShape)
+        {
+            foreach (var s in entities)
+            {
+                if (!s.Equals(checkedShape))
+                {
+                    if(checkedShape is PhysicsCircle && s is PhysicsCircle)
+                    {
+                        CircleCollision((PhysicsCircle)checkedShape, (PhysicsCircle)s);
+                    }
+                }
+            }
         }
     }
 }

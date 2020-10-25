@@ -40,7 +40,7 @@ namespace SimplePhysicsUI
             SetMouseEvents();
             SetUiElements();
             CreateLogic();
-            SetRenderTimer(300);
+            SetRenderTimer(60);
             SetFollowMouseTimer();
 
             Logic.TimerSwitch = true;
@@ -53,9 +53,13 @@ namespace SimplePhysicsUI
             }
             void SetUiElements()
             {
-                var c = new WpfCircle(50);
-                Cnvs.Children.Add(c.Ellipse);
-                entities = new List<WpfCircle>() { c };
+                var c1 = new WpfCircle(50);
+                var c2 = new WpfCircle(50);
+
+                Cnvs.Children.Add(c1.Ellipse);
+                Cnvs.Children.Add(c2.Ellipse);
+
+                entities = new List<WpfCircle>() { c1, c2 };
             }
             void CreateLogic()
             {
@@ -89,10 +93,10 @@ namespace SimplePhysicsUI
         {
             if (IsHoldingMouse)
             {
-                Logic.TimerSwitch = true;
                 Logic.StopDrag(selectedShape);
                 FollowMouseTimer.Stop();
                 IsHoldingMouse = false;
+                Logic.UneffectedShapes.Remove(selectedShape);
                 selectedShape = null;
             }
         }
@@ -103,9 +107,9 @@ namespace SimplePhysicsUI
                 if (s.Ellipse.IsMouseOver)
                 {
                     IsHoldingMouse = true;
-                    Logic.TimerSwitch = false;
                     FollowMouseTimer.Start();
                     selectedShape = s;
+                    Logic.UneffectedShapes.Add(s);
                     return;
                 }
             }

@@ -49,8 +49,8 @@ namespace SimplePhysics.Logic
             double yDis = b.Y - a.Y;
             return new Velocity()
             {
-                XVelocity = xDis,
-                YVelocity = yDis
+                X = xDis,
+                y = yDis
             };
 
         }

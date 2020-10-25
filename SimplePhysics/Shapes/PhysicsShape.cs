@@ -1,4 +1,5 @@
-﻿using SimplePhysics.Logic;
+﻿using SimplePhysics.Interfaces;
+using SimplePhysics.Logic;
 using SimplePhysics.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,11 @@ namespace SimplePhysics.Shapes
         {
             CenterPoint = p;
             CircleMoveEvent?.Invoke(this, new ShapeMoveEventArgs(p));
-            //Debug.WriteLine($"{p.X}, {p.Y}");
+        }
+
+        public void SetCenterPoint(double x, double y)
+        {
+            SetCenterPoint(new Point(x, y));
         }
         public abstract bool IsCollidedWithX(double x);
         public abstract bool IsCollidedWithY(double y);
@@ -30,6 +35,7 @@ namespace SimplePhysics.Shapes
             HistoryPosition = new PreviousPosition();
         }
         public PreviousPosition HistoryPosition { get; private set; }
+
 
         public delegate void ShapeMove(object sender, ShapeMoveEventArgs e);
         public event ShapeMove CircleMoveEvent;
