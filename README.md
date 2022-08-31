@@ -34,7 +34,7 @@ You will also have to initiate the `PhysicsLogic` class.
 ```
 ## Demo
 
-[Insert gif or link to demo](https://user-images.githubusercontent.com/50583120/187696581-f77ce859-aebb-4588-b72d-cabfb6005e1c.mp4)
+[Insert gif or link to demo](https://user-images.githubusercontent.com/50583120/187703690-7deff4ad-a18c-4631-89f0-58f113cc1c2c.mp4)
 
 
 ## Authors
