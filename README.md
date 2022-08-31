@@ -35,7 +35,7 @@ You will also have to initiate the `PhysicsLogic` class.
 ## Demo (Ignore water mark)
 
 
-[Insert gif or link to demo](https://user-images.githubusercontent.com/50583120/187703690-7deff4ad-a18c-4631-89f0-58f113cc1c2c.mp4)
+[Insert gif or link to demo](https://user-images.githubusercontent.com/50583120/187715683-b3048ac1-4571-4346-ba26-4365be31bf4f.mp4)
 
 
 ## Authors
