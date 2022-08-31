@@ -32,7 +32,7 @@ You will also have to initiate the `PhysicsLogic` class.
 ```cs
  Logic = new PhysicsLogic(GetScreenWidth, GetScreenHeight, entities.ToArray());
 ```
-## Demo (Ignore water mark)
+## Demo
 
 
 [Insert gif or link to demo](https://user-images.githubusercontent.com/50583120/187715683-b3048ac1-4571-4346-ba26-4365be31bf4f.mp4)
