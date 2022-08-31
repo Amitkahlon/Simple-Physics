@@ -1,4 +1,5 @@
 
+
 # Simple Physics
 
 A simple project to simulate a 2d physics engine.
@@ -9,5 +10,38 @@ Written following the rules of SOLID, in a way that is abstract and simplifies d
 
 - Example is included in the solution.
 
-https://user-images.githubusercontent.com/50583120/187696581-f77ce859-aebb-4588-b72d-cabfb6005e1c.mp4
+
+## Usage/Examples
+
+To use the library you should implement one of the SimplePhysics abstract shapes, for example: 
+
+```cs
+using SimplePhysics.Shapes;
+
+    public class WpfCircle : PhysicsCircle
+    {
+        public override double Radius { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override SimplePhysics.Models.Point CenterPoint { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+    }
+```
+
+For a circle, just implement these two properties, and the library will handle everything for you.
+You will just have to handle the rendering on the screen, the class will update its properties during the run, and you can use those properties to render it to the screen. 
+
+You will also have to initiate the `PhysicsLogic` class.
+```cs
+ Logic = new PhysicsLogic(GetScreenWidth, GetScreenHeight, entities.ToArray());
+```
+## Demo
+
+[Insert gif or link to demo](https://user-images.githubusercontent.com/50583120/187696581-f77ce859-aebb-4588-b72d-cabfb6005e1c.mp4)
+
+
+## Authors
+
+- [@Amit Kahlon](https://www.github.com/amitkahlon)
+
+
+
+
 
